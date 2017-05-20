@@ -21,7 +21,7 @@ public class Vetor{
     }
     
     //Verificar se a posição está nula para poder adicionar o elemento
-    //Problema: Ineficiente pois passa por todas as posições do vetor até achar uma que não seja nula.
+    //Problema: Ineficiente pois passa por todas as posições do vetor até achar uma que seja nula.
     public void adiciona(String elemento){
         for(int i = 0; i<this.elementosDoVetor.length; i++){
           if(this.elementosDoVetor[i] == null){
@@ -31,25 +31,26 @@ public class Vetor{
         }
     }
     
+    //Método que sabe o tamanho real do vetor.
     public boolean adiciona2(String elemento){
         if(this.tamanho < this.elementosDoVetor.length){
             this.elementosDoVetor[this.tamanho] = elemento;
             this.tamanho++;
-            return true;
+            return true; //sai do laço
         }
         return false;
     }
     
-    //retorna o valor REAL do vetor (a quantidade de posições preenchidas com um valor)
+    //retorna o valor REAL do vetor (a quantidade de posições preenchidas com um valor que, é diferente da CAPACIDADE do vetor)
     public int tamanho(){
         return this.tamanho;
     }
     
-    /* Retorna os elementos de dentro do array com nulo
+     /**Retorna os elementos de dentro do array com nulo
     @Override
     public String toString(){
         return Arrays.toString(elementosDoVetor);
-    }*/
+    }**/
     
     //Sem a presença de campos nulos
     @Override
@@ -67,7 +68,7 @@ public class Vetor{
         return s.toString();
     }
     
-    //Obter um elemento através da posição
+    //Buscar um elemento, dada uma posição específica
     public String obterElemento(int posicao){
        posicao--; 
        if(!(posicao >= 0) && (posicao < this.tamanho))
@@ -75,7 +76,7 @@ public class Vetor{
        return this.elementosDoVetor[posicao];
     }
     
-    //Sabar se um elemento existe
+    //Saber se um elemento existe
     public boolean existeElemento(String s){
         for(int i = 0; i<this.tamanho; i++){
             if(this.elementosDoVetor[i].equals(s)){
@@ -83,5 +84,20 @@ public class Vetor{
             }   
         }
         return false;
+    }
+    
+    public boolean adiciona(int posicao, String elemento){
+        if(!(posicao >= 0) && (posicao < this.tamanho)){
+            return false;
+        }
+        
+        //movo todos os elementos para direita
+        //o 'i' começa com o tamanho real menos 1
+        for(int i=this.tamanho-1; i>=posicao; i--){
+           this.elementosDoVetor[i+1] = this.elementosDoVetor[i]; 
+        }
+        this.elementosDoVetor[posicao] = elemento;
+        this.tamanho++;
+        return true;   
     }
 }
